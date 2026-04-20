@@ -91,6 +91,7 @@ create_all_directories() {
     # Create base directories with proper permissions
     print_status "Creating base directories..."
     sudo mkdir -p $YB_HOME
+    sudo chown root:root $YB_HOME
     sudo mkdir -p $YB_FULL_DATA_DIR
     sudo mkdir -p $YB_FULL_LOG_DIR
     
@@ -158,7 +159,7 @@ install_yugabytedb() {
     
     # XÓA DÒNG NÀY: sudo rm -rf $YB_HOME/*  ← đây là nguyên nhân lỗi
     # Copy trước, rồi mới set ownership sau
-    sudo cp -r yugabyte-${YB_VERSION}/* $YB_HOME/
+    sudo rsync -a yugabyte-${YB_VERSION}/ $YB_HOME/
     
     # Set ownership SAU KHI copy xong
     sudo chown -R $YB_USER:$YB_USER $YB_HOME
@@ -275,10 +276,10 @@ stop_and_clean() {
         sudo rm -rf $YB_FULL_LOG_DIR
     fi
     
-    # Remove installation directory
+    # Remove installation directory hoàn toàn
     if [[ -d "$YB_HOME" ]]; then
         print_status "Cleaning installation directory: $YB_HOME"
-        sudo rm -rf $YB_HOME/*
+        sudo rm -rf $YB_HOME
     fi
     
     # Remove systemd service files
