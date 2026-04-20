@@ -149,22 +149,21 @@ create_all_directories() {
 install_yugabytedb() {
     print_status "Downloading and installing YugabyteDB ${YB_VERSION}..."
     
-    # Download YugabyteDB
     cd /tmp
     if [ ! -f "yugabyte-${YB_VERSION}-b1-linux-x86_64.tar.gz" ]; then
         wget "https://software.yugabyte.com/releases/${YB_VERSION}/yugabyte-${YB_VERSION}-b1-linux-x86_64.tar.gz"
     fi
     
-    # Extract and install
     tar -xzf yugabyte-${YB_VERSION}-b1-linux-x86_64.tar.gz
-    sudo rm -rf $YB_HOME/*
+    
+    # XÓA DÒNG NÀY: sudo rm -rf $YB_HOME/*  ← đây là nguyên nhân lỗi
+    # Copy trước, rồi mới set ownership sau
     sudo cp -r yugabyte-${YB_VERSION}/* $YB_HOME/
     
-    # Set permissions
+    # Set ownership SAU KHI copy xong
     sudo chown -R $YB_USER:$YB_USER $YB_HOME
     sudo chmod +x $YB_HOME/bin/*
     
-    # Add to PATH
     echo "export PATH=\$PATH:$YB_HOME/bin" | sudo tee -a /etc/profile.d/yugabyte.sh
     
     print_success "YugabyteDB installed"
