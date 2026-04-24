@@ -39,9 +39,9 @@ YB_FULL_DATA_DIR="${YB_DATA_DIR}/yugabyte"
 YB_FULL_LOG_DIR="${YB_LOG_DIR}/yugabyte"
 
 # Cluster IPs
-NODE1_IP="192.168.37.4"
-NODE2_IP="192.168.37.5"
-NODE3_IP="192.168.37.6"
+NODE1_IP="192.168.36.4"
+NODE2_IP="192.168.36.5"
+NODE3_IP="192.168.36.6"
 
 # Get current node IP
 get_current_node() {
